@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Save_Notes">
+
+    <EditText
+        android:id="@+id/Title_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:width="100dp"
+        android:hint="Title"
+        android:textColorHint="#000000"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:background="@drawable/rounded_edges"
+        android:backgroundTint="#CCCCCC"
+        android:cursorVisible="true"
+        android:autofillHints=""
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/Desc_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Title_EditText"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:width="100dp"
+        android:background="@drawable/rounded_edges"
+        android:backgroundTint="#CCCCCC"
+        android:cursorVisible="true"
+        android:hint="Description"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="#000000"
+        android:textSize="20sp"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:autofillHints="" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/new_note"
+        android:layout_width="190dp"
+        android:layout_height="168dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:contentDescription="this is new note"
+        android:src="@drawable/save_icon"
+        android:textAlignment="center"
+        app:maxImageSize="40sp"/>
+
+</RelativeLayout>

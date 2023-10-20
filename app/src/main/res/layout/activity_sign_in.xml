@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignIn">
+
+    <TextView
+        android:id="@+id/SignIn"
+        android:layout_width="187dp"
+        android:layout_height="58dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20sp"
+        android:gravity="center|center_horizontal"
+        android:text="@string/sign_in"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/Email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SignIn"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="70sp"
+        android:text="@string/Email"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/Input_email"
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/SignIn"
+        android:layout_toEndOf="@id/Email"
+        android:hint="@string/enter_email"
+        android:inputType="textEmailAddress"
+        tools:ignore="Autofill" />
+
+    <TextView
+        android:id="@+id/Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Email"
+        android:layout_marginStart="20sp"
+        android:layout_marginTop="20sp"
+        android:text="@string/password"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="188dp" />
+
+    <EditText
+        android:id="@+id/Input_password"
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/Input_email"
+        android:layout_toEndOf="@id/Password"
+        android:hint="@string/enter_password"
+        android:inputType="textPassword"
+        tools:ignore="Autofill" />
+
+    <Button
+        android:id="@+id/Btn_submit_sign_in"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_in"
+        android:layout_below="@id/Password"
+        android:layout_marginTop="50dp"
+        android:onClick="check"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Want to SignUp?"
+        android:onClick="redirect_sign_in"
+        android:id="@+id/message"
+        android:textSize="20sp"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/Btn_submit_sign_in" />
+
+</RelativeLayout>
