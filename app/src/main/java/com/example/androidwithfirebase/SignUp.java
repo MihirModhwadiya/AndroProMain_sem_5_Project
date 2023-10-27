@@ -22,14 +22,17 @@ import android.widget.Toast;
 
 import org.checkerframework.checker.units.qual.C;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText Input0,Input1, Input2, Input3;
+    EditText Input0, Input1, Input2, Input3;
     Button Submit;
     FirebaseAuth mAuth;
+
+    FirebaseUser userr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class SignUp extends AppCompatActivity {
         Submit = findViewById(R.id.Btn_submit);
     }
 
-    public void redirect_sign_up(View view){
+    public void redirect_sign_up(View view) {
         Intent intent = new Intent(this, SignIn.class);
         startActivity(intent);
         finish();
@@ -66,7 +69,7 @@ public class SignUp extends AppCompatActivity {
 //                                Toast.makeText(SignUp.this, "createUserWithEmail:successfully", Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
-                                setAuth();
+                                setAuth(user);
                                 Intent intent = new Intent(SignUp.this, MainActivity.class);
                                 startActivity(intent);
                             } else {
@@ -76,22 +79,22 @@ public class SignUp extends AppCompatActivity {
                             }
                         }
 
-                        public void setAuth(){
+                        public void setAuth(FirebaseUser user) {
                             MainActivity main = new MainActivity();
                             FirebaseFirestore db = main.db;
                             mAuth = FirebaseAuth.getInstance();
-                            String arr[] = {};
+
                             // Create a new user with a first and last name
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("username", username);
-                            user.put("notes", null);
+                            Map<String, Object> userInfo = new HashMap<>();
+                            userInfo.put("username", username);
                             // Add a new document with a generated ID
                             db.collection("users")
-                                    .add(user)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    .document(user.getUid())
+                                    .set(userInfo)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-//                                            Toast.makeText(SignUp.this, "Data Added Successfully!", Toast.LENGTH_SHORT).show();
+                                        public void onSuccess(Void avoid) {
+                                            Toast.makeText(SignUp.this, "Successfully!", Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -106,6 +109,7 @@ public class SignUp extends AppCompatActivity {
             Toast.makeText(SignUp.this, "Please enter same password", Toast.LENGTH_SHORT).show();
         }
     }
+
     public void updateUI(FirebaseUser user) {
         MainActivity mn = new MainActivity();
         mn.user = user;
