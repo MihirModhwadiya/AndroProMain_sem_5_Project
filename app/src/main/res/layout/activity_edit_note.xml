@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".EditNoteActivity">
 
     <EditText
-        android:id="@+id/searchEditText"
+        android:id="@+id/Title_EditText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
@@ -15,23 +15,45 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_weight="1"
+        android:width="100dp"
+        android:hint="Title"
+        android:textColorHint="#000000"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:background="@drawable/rounded_edges"
+        android:backgroundTint="#CCCCCC"
+        android:cursorVisible="true"
+        android:autofillHints=""
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/Desc_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Title_EditText"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:width="100dp"
         android:background="@drawable/rounded_edges"
         android:backgroundTint="#CCCCCC"
         android:cursorVisible="true"
-        android:hint="Search"
+        android:hint="Description"
         android:paddingStart="16dp"
+        android:paddingTop="16dp"
         android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
         android:textColor="@android:color/black"
         android:textColorHint="#000000"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:autofillHints="" />
 
-    <ListView
-        android:layout_marginTop="90dp"
-        android:id="@+id/lst_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_note"
@@ -44,8 +66,8 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
         android:contentDescription="this is new note"
-        android:src="@drawable/baseline_add_24"
+        android:src="@drawable/save_icon"
         android:textAlignment="center"
-        app:maxImageSize="50sp" />
+        app:maxImageSize="40sp"/>
 
 </RelativeLayout>

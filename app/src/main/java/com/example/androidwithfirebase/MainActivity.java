@@ -3,6 +3,7 @@ package com.example.androidwithfirebase;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -23,8 +24,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     ListView notesListView;
     public String[] titleArray;
     public String[] descriptionArray;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        notesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Handle the click on a note to edit it
+                edit(i);
+            }
+        });
+
         notesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -69,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void edit(int position){
+        if (position >= 0 && position < titleArray.length) {
+            // Start the EditNoteActivity and pass the data for the selected note
+            Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
+            intent.putExtra("title", titleArray[position]);
+            intent.putExtra("description", descriptionArray[position]);
+            intent.putExtra("position", position);
+            startActivity(intent);
+        }
     }
 
     public void delete(int position) {
@@ -130,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void fetch() {
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -138,54 +159,49 @@ public class MainActivity extends AppCompatActivity {
             String userUid = currentUser.getUid();
             DocumentReference userDocRef = db.collection("users").document(userUid);
 
-            userDocRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                Map<String, Object> userData = documentSnapshot.getData();
+            userDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w(TAG, "Listen failed.", e);
+                        return;
+                    }
 
-//                                Toast.makeText(MainActivity.this, ""+userData, Toast.LENGTH_SHORT).show();
+                    if (documentSnapshot != null && documentSnapshot.exists()) {
+                        Map<String, Object> userData = documentSnapshot.getData();
 
-                                if (userData != null && userData.containsKey("notes")) {
-                                    Object notesData = userData.get("notes");
+                        if (userData != null && userData.containsKey("notes")) {
+                            Object notesData = userData.get("notes");
 
-                                    if (notesData instanceof List) {
-                                        List<Map<String, Object>> notesList = (List<Map<String, Object>>) notesData;
+                            if (notesData instanceof List) {
+                                List<Map<String, Object>> notesList = (List<Map<String, Object>>) notesData;
 
-                                        List<String> titles = new ArrayList<>();
-                                        List<String> descriptions = new ArrayList<>();
-                                        for (Map<String, Object> noteData : notesList) {
-                                            String title = noteData.get("Title").toString();
-                                            String description = noteData.get("Description").toString();
+                                List<String> titles = new ArrayList<>();
+                                List<String> descriptions = new ArrayList();
+                                for (Map<String, Object> noteData : notesList) {
+                                    String title = noteData.get("Title").toString();
+                                    String description = noteData.get("Description").toString();
 
-                                            titles.add(title);
-                                            descriptions.add(description);
-                                        }
-                                        titleArray = titles.toArray(new String[0]);
-                                        descriptionArray = descriptions.toArray(new String[0]);
-
-                                        Notes_info customAdapter = new Notes_info(titleArray, descriptionArray, MainActivity.this);
-                                        notesListView.setAdapter(customAdapter);
-                                    } else {
-                                        Toast.makeText(MainActivity.this, "Notes data is not in the expected format (List)", Toast.LENGTH_SHORT).show();
-                                    }
+                                    titles.add(title);
+                                    descriptions.add(description);
                                 }
+                                titleArray = titles.toArray(new String[0]);
+                                descriptionArray = descriptions.toArray(new String[0]);
 
+                                Notes_info customAdapter = new Notes_info(titleArray, descriptionArray, MainActivity.this);
+                                notesListView.setAdapter(customAdapter);
                             } else {
-                                Toast.makeText(MainActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "Notes data is not in the expected format (List)", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error fetching user document", e);
-                        }
-                    });
+                    } else {
+                        Toast.makeText(MainActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         } else {
-            Toast.makeText(this, "no userr", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "no user", Toast.LENGTH_SHORT).show();
         }
-
     }
+
 }

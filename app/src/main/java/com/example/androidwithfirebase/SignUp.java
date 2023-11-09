@@ -65,7 +65,6 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onComplete(@androidx.annotation.NonNull com.google.android.gms.tasks.Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
 //                                Toast.makeText(SignUp.this, "createUserWithEmail:successfully", Toast.LENGTH_SHORT).show();
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 updateUI(user);
@@ -84,10 +83,9 @@ public class SignUp extends AppCompatActivity {
                             FirebaseFirestore db = main.db;
                             mAuth = FirebaseAuth.getInstance();
 
-                            // Create a new user with a first and last name
                             Map<String, Object> userInfo = new HashMap<>();
                             userInfo.put("username", username);
-                            // Add a new document with a generated ID
+
                             db.collection("users")
                                     .document(user.getUid())
                                     .set(userInfo)

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.List;
 
 public class Notes_info extends BaseAdapter {
-
     Context cntxt;
     String[] Title, Desc;
     LayoutInflater lf;

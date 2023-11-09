@@ -47,7 +47,7 @@ public class Save_Notes extends AppCompatActivity {
                 mAuth = FirebaseAuth.getInstance();
                 user = mAuth.getCurrentUser();
 
-                if (user != null) {
+                if (!Title_txt.isEmpty() && !Desc_txt.isEmpty()) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                     // Create a new note document
@@ -75,7 +75,7 @@ public class Save_Notes extends AppCompatActivity {
                                 }
                             });
                 } else {
-                    Toast.makeText(Save_Notes.this, "User not authenticated. Please log in.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Save_Notes.this, "Title and Description can not be empty.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
