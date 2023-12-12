@@ -20,6 +20,7 @@ public class SignIn extends AppCompatActivity {
     FirebaseAuth mAuth;
     EditText Input1, Input2;
     Button Submit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +32,14 @@ public class SignIn extends AppCompatActivity {
         Submit = findViewById(R.id.Btn_submit_sign_in);
 
     }
-    public void redirect_sign_in(View view){
+
+    public void redirect_sign_in(View view) {
         Intent intent = new Intent(this, SignUp.class);
         startActivity(intent);
         finish();
     }
-    public void check(View view){
+
+    public void check(View view) {
         String email = Input1.getText().toString();
         String password = Input2.getText().toString();
         mAuth.signInWithEmailAndPassword(email, password)
@@ -59,6 +62,7 @@ public class SignIn extends AppCompatActivity {
                             updateUI(null);
                         }
                     }
+
                     public void updateUI(FirebaseUser user) {
                         MainActivity mn = new MainActivity();
                         mn.user = user;

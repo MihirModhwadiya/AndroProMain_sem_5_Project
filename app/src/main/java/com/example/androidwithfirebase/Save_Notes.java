@@ -33,10 +33,30 @@ public class Save_Notes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_notes);
 
+        MainActivity mn = new MainActivity();
+        mAuth = FirebaseAuth.getInstance();
+
+//        Toast.makeText(this, "" + mAuth.getUid(), Toast.LENGTH_SHORT).show();
+//        if (mAuth.getUid() == null) {
+//            Intent intent = new Intent(this, SignIn.class);
+//            startActivity(intent);
+//            finish();
+//        }
+
         Title = findViewById(R.id.Title_EditText);
         Desc = findViewById(R.id.Desc_EditText);
 
         Add_note = findViewById(R.id.new_note);
+
+        FloatingActionButton back = findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Save_Notes.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Add_note.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,10 +72,10 @@ public class Save_Notes extends AppCompatActivity {
 
                     // Create a new note document
                     Map<String, Object> note = new HashMap<>();
-                    note.put("Title",Title_txt);
+                    note.put("Title", Title_txt);
                     note.put("Description", Desc_txt);
 //                    note.put("description", Desc_txt);
-                    Toast.makeText(Save_Notes.this, ""+user.getUid(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Save_Notes.this, "" + user.getUid(), Toast.LENGTH_SHORT).show();
                     // Add the note to the "notes" collection for the current user
                     db.collection("users")
                             .document(user.getUid())
@@ -79,5 +99,17 @@ public class Save_Notes extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(this, SignIn.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

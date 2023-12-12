@@ -7,7 +7,7 @@
     <string name="sign_up">SignUp</string>
     <string name="successfully_sign_Up">Successfully SignUp</string>
     <string name="invalid_username_and_password">Invalid Username And Password</string>
-    <string name="C_password">Confirm Password:</string>
+    <string name="C_password">Confirm Password</string>
     <string name="Email">Email:</string>
     <string name="enter_email">Enter Email</string>
     <string name="sign_in">SignIn</string>

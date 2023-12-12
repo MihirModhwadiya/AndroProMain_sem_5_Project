@@ -36,6 +36,14 @@ public class EditNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_notes);
 
+//        mAuth = FirebaseAuth.getInstance();
+//
+//        if (mAuth.getCurrentUser() == null) {
+//            Intent intent = new Intent(this, SignIn.class);
+//            startActivity(intent);
+//            finish();
+//        }
+
         editTitle = findViewById(R.id.Title_EditText);
         editDescription = findViewById(R.id.Desc_EditText);
         updateButton = findViewById(R.id.new_note);
@@ -45,6 +53,16 @@ public class EditNoteActivity extends AppCompatActivity {
         String originalTitle = intent.getStringExtra("title");
         String originalDescription = intent.getStringExtra("description");
         position = intent.getIntExtra("position", -1);
+
+        FloatingActionButton back = findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditNoteActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //         Set the retrieved data in the EditText fields
         editTitle.setText(originalTitle);
@@ -113,5 +131,17 @@ public class EditNoteActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(this, SignIn.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     ListView notesListView;
     public String[] titleArray;
     public String[] descriptionArray;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +55,27 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         FloatingActionButton new_note = findViewById(R.id.new_note);
+        FloatingActionButton log_out = findViewById(R.id.log_out);
 
         notesListView = findViewById(R.id.lst_view);
+
+//        if (mAuth.getCurrentUser() == null) {
+//            Intent intent = new Intent(this, SignIn.class);
+//            startActivity(intent);
+//            finish();
+//        }
 
         new_note.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, Save_Notes.class);
                 startActivity(intent);
+            }
+        });
+        log_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
             }
         });
 
@@ -82,7 +96,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void edit(int position){
+    private void logout() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+
+        Intent intent = new Intent(MainActivity.this, SignIn.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void edit(int position) {
         if (position >= 0 && position < titleArray.length) {
             // Start the EditNoteActivity and pass the data for the selected note
             Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
@@ -163,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     if (e != null) {
-                        Log.w(TAG, "Listen failed.", e);
+                        Toast.makeText(MainActivity.this, "Listen failed.", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -204,4 +227,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(this, SignIn.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 }

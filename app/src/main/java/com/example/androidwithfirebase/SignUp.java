@@ -41,7 +41,6 @@ public class SignUp extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         Input0 = findViewById(R.id.Input_email);
-        Input1 = findViewById(R.id.Input_username);
         Input2 = findViewById(R.id.Input_password);
         Input3 = findViewById(R.id.Input_C_password);
         Submit = findViewById(R.id.Btn_submit);
@@ -52,10 +51,8 @@ public class SignUp extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
     public void check(View view) {
         String email = Input0.getText().toString();
-        String username = Input1.getText().toString();
         String password = Input2.getText().toString();
         String C_password = Input3.getText().toString();
 
@@ -84,7 +81,7 @@ public class SignUp extends AppCompatActivity {
                             mAuth = FirebaseAuth.getInstance();
 
                             Map<String, Object> userInfo = new HashMap<>();
-                            userInfo.put("username", username);
+                            userInfo.put("email", email);
 
                             db.collection("users")
                                     .document(user.getUid())
